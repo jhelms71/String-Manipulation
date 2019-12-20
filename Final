@@ -1,0 +1,259 @@
+/*
+  * @author Jonathan Helms
+ * @version October 19, 2019
+ * description: User enters a sentence and based off their choices, the program manipulates the 
+ * sentence and displays the output of the new sentence. Can also count the number of words/occurences
+ * of things in the sentence
+ * 
+ * pseudocode:
+ * 1. ask user to enter a sentence
+ * 2. loop menu giving options to user
+ * 3. A) Enter new sentence
+ * 	- let user enter a new sentence and replace the other one
+ * 4. B) Search for word
+ * 	- user enters word
+ * 	- if found, display its index
+ * 	- else, display not found
+ * 5. C) Search for all incidences of a string
+ * 	- user enters word they want to search
+ *  - if found, display index of letter/word, replace with a space, and loop until all are found
+ *  - else, display not found
+ *  6. D) Capitalize a word
+ *  - user enters word to capitalize
+ *  - if found, user picks yes or no to caps it
+ *  	- if yes, word is caps, display new sentence
+ *  	- if no, display word not changed
+ *  - else, display not found
+ *  7. E) Replace word with another
+ *  - ask user word they want changed, and the replacement
+ *  -check if word is found
+ *  - if found, loop until all incidences replaced then display new sentece
+ *  - else, display not found
+ *  8. F) Count number of words
+ *  - split sentence at the spaces and place into an array
+ *  -display the length of the array
+ *  9. G) Count number of specific letter/word
+ *  -search if word found
+ *  -if found, loop and replace letter/word with space, and add a tracker that increases by 1 each time
+ *  -display occurrences 
+ *  10. H) Count all letters
+ *  - replace the space with nothing
+ *  -split all everything from between the letters, and place that in an array
+ *  -display the length of the array
+ *  11. I)Delete all occurrences of a word
+ *  - search for word
+ *  - replace word with and empty character
+ *  - display new sentence
+ *  12. J) End program
+ *  -display goodbye message
+ *  13.if user enters anything other than the given options, display message saying to pick above options
+ *   
+ * 	
+ */
+import java.util.Scanner;
+//import java.util.ArrayList;
+public class Assign_2final {
+
+	public static void main(String[] args) {
+		//create a scanner and ask user to enter the first main sentence
+		Scanner input = new Scanner(System.in);
+		System.out.print("Begin the program by entering your Main Sentence: ");
+		String sentence = input.nextLine();
+		
+		//boolean true to allow program to keep running until changed
+		boolean program = true;
+		
+		//while statement to loop the program, as long as  variable program is true
+		while(program == true) {
+			
+			//display choices for the user
+			System.out.println("	Enter your choice: ");
+			System.out.println("\nA. Enter a new Main Sentence"
+					+ "\nB. Search for a String "
+					+ "\nC. Search for all incidents of a string"
+					+ "\nD. Search for and capitalize a String if necessary"
+					+ "\nE. Replace all incidents of a string to another one"
+					+ "\nF. Count the number of words"
+					+ "\nG. Count the number of occurrences of a letter"
+					+ "\nH. Count the total number of letters"
+					+ "\nI. Delete all occurrences of a word"
+					+ "\nJ. Exit ");
+			
+			//accept users choice, and make it upper case
+			String choice = input.nextLine();
+			choice = choice.toUpperCase();
+			
+			if (choice.contentEquals("A")) {
+				//allow user to enter a new sentence, and display it
+				System.out.print("Input a new Main Sentence: ");
+				sentence =input.nextLine();
+				
+				System.out.println("The new Main Sentence is \n " + sentence);
+			}
+				//search for a word/letter in the string
+			else if (choice.contentEquals("B")) {
+				//user enters word
+				System.out.print("Enter a word to search for: ");
+				String word = input.nextLine();
+				//if word found, display its index
+				if (sentence.contains(word)) {
+				System.out.println(word + " is found at " + sentence.indexOf(word) + ".");
+				}
+				else {//if word not found
+					System.out.println(word + " is not found.");
+				}
+				
+			}
+				//search for a word/letter in a string, and display each incidence of it  
+			 if (choice.contentEquals("C")) {
+				System.out.print("Enter the string you want to find all incidents of: ");
+				String word2 = input.nextLine();
+				//create new sentence to not corrupt the original
+				String sentence2 = sentence;
+				
+				//if statement to check if word is in the sentence
+				if (sentence2.contains(word2)) {
+					//while loop to loop through each incidence of the letter/string
+					while(sentence2.contains(word2)) {
+						//print where it was found, and replace with space
+						System.out.println(word2 + " is found at: " + sentence2.indexOf(word2));
+						
+						sentence2 =  sentence2.replaceFirst(word2, " ");
+						
+					}
+					
+				}//if letter not found
+				else {
+					System.out.println(word2 + "was not found.");
+				}
+				
+			
+			}
+				//capitalize a word
+			else if(choice.contentEquals("D")) {
+				//enter a word and create new sentence to not corrupt original
+				System.out.println("Enter word to capitalize: ");
+				String wordCap = input.nextLine();
+				String sentence3 = sentence;
+				
+				//check for word
+				if (sentence3.contains(wordCap)) {
+					//ask if they want to capitalize it
+					System.out.println("Do you want to capitalize that word? (y/n) ");
+					String answer = input.nextLine().toUpperCase();
+					
+					if (answer.contentEquals("Y") && sentence3.contains(wordCap)) {
+						//separate the word chosen from the rest of the sentence
+						String word = sentence3.substring(sentence.indexOf(wordCap));
+						//take the first letter from the word and capitalize it and place the rest of the string in another variable
+						String first = word.substring(0,1).toUpperCase();
+						String rest = word.substring(1); 
+						//add the first letter back to the rest of the string
+						sentence3 = first + rest;
+						System.out.println(sentence3);
+						
+					}//if user picks not
+					else if (answer.contentEquals("N")){
+						System.out.println(wordCap + " was not changed.");
+					}
+					//change the new sentence
+					sentence = sentence3;
+				}
+				else {//if word wasn't in sentence
+					System.out.println(wordCap + " was not in the original sentence.");
+				}
+				
+			}
+				
+				//choose word to replace and the replacement
+			else if (choice.contentEquals("E")) {
+				System.out.print("Enter a word you want to replace: ");
+				String word = input.nextLine();
+				String sentence4 = sentence;
+				System.out.print("Enter the word you want as a replacement: ");
+				String replacement = input.nextLine();
+				
+				if (sentence4.contains(word)) {
+					while (sentence4.contains(word)) {//replace word with replacement, and loop for each iteration
+						sentence4 = sentence4.replace(word, replacement);
+						System.out.println(sentence4);
+						
+					}
+					
+				}
+				else {//if word not found
+					System.out.print(word + " was not found.");
+				}//make sentence equal to the new sentence if changed
+				sentence = sentence4;
+			
+
+			}
+				
+				//splits string at the spaces and then counts the words
+			else if(choice.contentEquals("F")) {
+				String sentenceF = sentence;
+				String numb[] = sentenceF.split(" ");
+				System.out.println("The number of words are: " + numb.length);
+
+			}
+				
+				//counts number of letter chosen
+			else if (choice.contentEquals("G")) {
+				//create letter as char, and turn sentence into char array
+				System.out.println("Enter a letter to count the number of occurrences: ");
+				char letter = input.nextLine().charAt(0);
+				char characters[] = sentence.toCharArray();
+				//begin count at zero
+				int count =0;
+				
+				//test to see if the sentence has been looped through, and increase the count for every occur
+				for(int i = 0; i < characters.length; i++) {
+					if (characters[i] == letter) {
+						count++;
+					}
+				
+				}
+				System.out.println("The number of " + letter + " is: " + count);
+			}
+				
+				//displays the number of letters
+			else if (choice.contentEquals("H")) {
+				//take out the spaces from the string
+				String sentence6 = sentence.replace(" ", "");
+				//split the letters up into an array
+				String sent6[] = sentence6.split("");
+				//display the length of the array
+				System.out.println("The number of letters are: " + sent6.length);
+			}
+				
+				
+			else if(choice.contentEquals("I")) {
+				//ask user to pick a word to delete
+				System.out.println("Enter a word to delete: ");
+				String del = input.nextLine();
+				
+				//if-else statement to determine if word was apart of sentence
+				if(sentence.contains(del)) {
+					//replaces the chosen word with nothing(deleting it)
+					System.out.println(sentence.replace(del, ""));
+					sentence = sentence.replace(del, "");
+				}
+				else {//if word isn't in sentence, display message
+					System.out.println(del + " wasn't in the sentence.");
+				}
+			}
+				
+				
+			else if (choice.contentEquals("J")) {
+				//program is declared false and a bye message is displayed
+				program = false;
+				System.out.println("Bye! :)");
+			}
+				//if user enters anything not specified, they are told to do so
+			else {
+				System.out.println("Enter one of the above.");
+			}
+		}
+	}
+
+}
